@@ -3,261 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OORDA BUS</title>
+  <title>Study Hour Tracker</title>
   <style>
     body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f7f7f7;
+    }
+    h1 {
+      text-align: center;
       color: #333;
     }
-    header {
-      background: linear-gradient(90deg, #ff512f, #dd2476);
-      color: white;
-      text-align: center;
-      padding: 30px 15px;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    header img {
-      height: 50px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
-    }
-    .subtitle {
-      text-align: center;
-      font-size: 1.2rem;
+    label {
+      display: block;
+      margin-top: 15px;
       font-weight: bold;
+    }
+    input, button {
       margin-top: 5px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .session-list {
+      margin-top: 25px;
+    }
+    .date-block {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f1f1;
+      border-radius: 6px;
+      position: relative;
+    }
+    .session {
+      background: #e9f5e9;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .total {
+      font-size: 16px;
+      margin-top: 10px;
+      font-weight: bold;
       color: #444;
     }
-    .tabs {
-      display: flex;
-      justify-content: center;
-      background: #222;
-    }
-    .tab {
-      flex: 1;
-      padding: 15px;
-      text-align: center;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s, background 0.3s;
-    }
-    .tab:hover {
-      transform: translateY(-2px);
-    }
-    .tab.active {
-      background: linear-gradient(90deg, #36d1dc, #5b86e5);
-      box-shadow: inset 0 -3px 8px rgba(0,0,0,0.4);
-    }
-    .content {
-      display: none;
-      padding: 25px;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    .content.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    .search-box {
-      margin: 15px auto;
-      max-width: 400px;
-      display: flex;
-      justify-content: center;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 50px;
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      outline: none;
-      transition: all 0.3s ease;
-    }
-    .search-box input:focus {
-      box-shadow: 0 4px 15px rgba(0,150,255,0.5);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .clear-btn {
+      background: #e74c3c;
       margin-top: 15px;
-      background: white url('https://www.transparenttextures.com/patterns/gplay.png');
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
-    th, td {
-      padding: 14px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-      font-size: 1rem;
+    .clear-btn:hover {
+      background: #c0392b;
     }
-    th {
-      background: linear-gradient(90deg, #36d1dc, #5b86e5);
-      color: white;
-      font-size: 1.1rem;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    .delete-date-btn, .delete-session-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e67e22;
+      font-size: 14px;
+      padding: 5px 10px;
     }
-    tr:nth-child(even) {
-      background: #f9f9f9;
+    .delete-date-btn:hover, .delete-session-btn:hover {
+      background: #d35400;
     }
-    tr:hover {
-      background: #f1faff;
-      transform: scale(1.01);
-      transition: all 0.2s ease;
+    .delete-session-btn {
+      right: 10px;
+      top: 5px;
+      background: #3498db;
     }
-    td img {
-      height: 22px;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-    .highlight {
-      background: #ffe680 !important;
-      font-weight: bold;
-      color: #d35400;
-      box-shadow: inset 0 0 10px rgba(255,200,50,0.7);
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #222;
-      color: white;
-      margin-top: 20px;
-      font-size: 0.9rem;
+    .delete-session-btn:hover {
+      background: #2980b9;
     }
   </style>
 </head>
 <body>
+  <h1>📚 Study Hour Tracker</h1>
+  <div class="container">
+    <label>Subject Name:</label>
+    <input type="text" id="subject" placeholder="Enter subject..." style="width:100%">
 
-<header>
-  <img src="https://img.icons8.com/color/96/000000/bus.png" alt="Bus Icon">
-  OORDA BUS
-</header>
+    <label>Start Time:</label>
+    <input type="time" id="startTime">
 
-<div class="subtitle">by Abhijith Acharya & Vishikha Keshava</div>
+    <label>End Time:</label>
+    <input type="time" id="endTime">
 
-<div class="tabs">
-  <div class="tab active" onclick="openTab('kulai')">Kulai → NITK</div>
-  <div class="tab" onclick="openTab('nitk')">NITK → Kulai</div>
-</div>
+    <button onclick="addSession()">Add Study Session</button>
+    <button class="clear-btn" onclick="clearAll()">Clear All History</button>
 
-<div class="search-box">
-  <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="🔍 Search bus or time...">
-</div>
+    <div class="session-list" id="sessions"></div>
+  </div>
 
-<!-- Kulai → NITK -->
-<div id="kulai" class="content active">
-  <table id="kulaiTable">
-    <tr><th>Time</th><th>Bus</th></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">7:35 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">7:55 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">8:45 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">9:08 AM</td><td>Teena</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">9:15 AM</td><td>Didar</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">9:32 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">10:00 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">10:06 AM</td><td>2no Bus</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">10:55 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">12:29 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">1:09 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">2:58 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">5:20 PM</td><td>Didar</td></tr>
-  </table>
-</div>
+  <script>
+    let allSessions = JSON.parse(localStorage.getItem("studySessionsByDate")) || {};
 
-<!-- NITK → Kulai -->
-<div id="nitk" class="content">
-  <table id="nitkTable">
-    <tr><th>Time</th><th>Bus</th></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">11:15 AM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">12:00 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">12:42 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">1:07 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">4:50 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">5:02 PM</td><td>Kateeleshwari</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">5:05 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">5:40 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">5:45 PM</td><td>Didar</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">7:00 PM</td><td>Sidhi Vinayaka</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">7:40 PM</td><td>Nandini</td></tr>
-    <tr><td><img src="https://img.icons8.com/fluency/48/000000/clock.png">8:00 PM</td><td>Express</td></tr>
-  </table>
-</div>
-
-<footer>© 2025 OORDA BUS | Created by Abhijith Acharya & Vishikha Keshava</footer>
-
-<script>
-  // Switch tabs
-  function openTab(tabName) {
-    let tabs = document.getElementsByClassName("content");
-    let buttons = document.getElementsByClassName("tab");
-    for (let i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove("active");
-      buttons[i].classList.remove("active");
+    function getTodayDate() {
+      let today = new Date();
+      return today.toISOString().split("T")[0]; // YYYY-MM-DD
     }
-    document.getElementById(tabName).classList.add("active");
-    event.target.classList.add("active");
-    highlightNextBus(tabName);
-  }
 
-  // Search filter
-  function searchTable() {
-    let input = document.getElementById("searchInput").value.toLowerCase();
-    let tables = document.querySelectorAll("table");
-    tables.forEach(table => {
-      let rows = table.getElementsByTagName("tr");
-      for (let i = 1; i < rows.length; i++) {
-        let rowText = rows[i].innerText.toLowerCase();
-        rows[i].style.display = rowText.includes(input) ? "" : "none";
+    function addSession() {
+      let subject = document.getElementById("subject").value;
+      let start = document.getElementById("startTime").value;
+      let end = document.getElementById("endTime").value;
+
+      if (!subject || !start || !end) {
+        alert("Please fill all fields!");
+        return;
       }
-    });
-  }
 
-  // Highlight next bus
-  function highlightNextBus(tabName) {
-    let now = new Date();
-    let currentHour = now.getHours();
-    let currentMin = now.getMinutes();
+      let startTime = new Date("1970-01-01T" + start + ":00");
+      let endTime = new Date("1970-01-01T" + end + ":00");
 
-    let table = document.getElementById(tabName + "Table");
-    let rows = table.getElementsByTagName("tr");
+      if (endTime < startTime) {
+        alert("End time cannot be earlier than start time!");
+        return;
+      }
 
-    for (let i = 1; i < rows.length; i++) {
-      rows[i].classList.remove("highlight");
-      let timeStr = rows[i].cells[0].innerText;
-      let timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
-      if (timeMatch) {
-        let hour = parseInt(timeMatch[1]);
-        let min = parseInt(timeMatch[2]);
-        let period = timeMatch[3].toUpperCase();
-        if (period === "PM" && hour < 12) hour += 12;
-        if (period === "AM" && hour === 12) hour = 0;
+      let diffMs = endTime - startTime;
+      let diffHrs = Math.floor(diffMs / 1000 / 60 / 60);
+      let diffMins = Math.floor((diffMs / 1000 / 60) % 60);
 
-        if (hour > currentHour || (hour === currentHour && min > currentMin)) {
-          rows[i].classList.add("highlight");
-          break;
+      let session = { subject, start, end, diffHrs, diffMins };
+      let today = getTodayDate();
+
+      if (!allSessions[today]) {
+        allSessions[today] = [];
+      }
+      allSessions[today].push(session);
+
+      localStorage.setItem("studySessionsByDate", JSON.stringify(allSessions));
+      displaySessions();
+
+      // clear inputs
+      document.getElementById("subject").value = "";
+      document.getElementById("startTime").value = "";
+      document.getElementById("endTime").value = "";
+    }
+
+    function displaySessions() {
+      let sessionList = document.getElementById("sessions");
+      sessionList.innerHTML = "";
+
+      for (let date in allSessions) {
+        let dateBlock = document.createElement("div");
+        dateBlock.className = "date-block";
+
+        let sessions = allSessions[date];
+        let totalMinutes = 0;
+        sessions.forEach(s => {
+          totalMinutes += (s.diffHrs * 60 + s.diffMins);
+        });
+
+        let totalHrs = Math.floor(totalMinutes / 60);
+        let totalMins = totalMinutes % 60;
+
+        let header = document.createElement("h3");
+        header.innerText = date;
+
+        let deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-date-btn";
+        deleteBtn.innerText = "Delete This Date";
+        deleteBtn.onclick = function() { clearDate(date); };
+
+        dateBlock.appendChild(header);
+        dateBlock.appendChild(deleteBtn);
+
+        sessions.forEach((s, index) => {
+          let div = document.createElement("div");
+          div.className = "session";
+          div.innerHTML = `<strong>${s.subject}</strong><br>
+                           ${s.start} - ${s.end}<br>
+                           Duration: ${s.diffHrs}h ${s.diffMins}m`;
+
+          let deleteSessionBtn = document.createElement("button");
+          deleteSessionBtn.className = "delete-session-btn";
+          deleteSessionBtn.innerText = "Delete";
+          deleteSessionBtn.onclick = function() { clearSession(date, index); };
+
+          div.appendChild(deleteSessionBtn);
+          dateBlock.appendChild(div);
+        });
+
+        let totalDiv = document.createElement("div");
+        totalDiv.className = "total";
+        totalDiv.innerText = `Total Study Time: ${totalHrs}h ${totalMins}m`;
+        dateBlock.appendChild(totalDiv);
+
+        sessionList.appendChild(dateBlock);
+      }
+    }
+
+    function clearDate(date) {
+      if (confirm(`Delete all records for ${date}?`)) {
+        delete allSessions[date];
+        localStorage.setItem("studySessionsByDate", JSON.stringify(allSessions));
+        displaySessions();
+      }
+    }
+
+    function clearSession(date, index) {
+      if (confirm("Delete this session?")) {
+        allSessions[date].splice(index, 1);
+        if (allSessions[date].length === 0) {
+          delete allSessions[date]; // remove empty date
         }
+        localStorage.setItem("studySessionsByDate", JSON.stringify(allSessions));
+        displaySessions();
       }
     }
-  }
 
-  // Run highlight on load
-  window.onload = function() {
-    highlightNextBus("kulai");
-  };
-</script>
+    function clearAll() {
+      if (confirm("Are you sure you want to clear all history?")) {
+        allSessions = {};
+        localStorage.removeItem("studySessionsByDate");
+        displaySessions();
+      }
+    }
 
+    // Load sessions on page load
+    displaySessions();
+  </script>
 </body>
 </html>
